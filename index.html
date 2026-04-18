@@ -65,18 +65,24 @@
       pointer-events: none;
     }
 
-    /* Movimiento sutil del botón */
+    /* Movimiento sutil del botón - solo en desktop */
     @keyframes pulse-float {
       0%, 100% {
         transform: translateY(0px);
       }
       50% {
-        transform: translateY(-8px);
+        transform: translateY(-3px);
       }
     }
 
     .pulse-btn {
-      animation: pulse-float 3s ease-in-out infinite;
+      animation: pulse-float 4s ease-in-out infinite;
+    }
+
+    @media (max-width: 768px) {
+      .pulse-btn {
+        animation: none;
+      }
     }
 
     /* Indicador de carga */
@@ -192,6 +198,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      filter: drop-shadow(0 2px 4px rgba(126, 200, 255, 0.3));
     }
 
     .hero-section p {
@@ -201,6 +208,75 @@
       line-height: 1.7;
       margin-bottom: 40px;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 24px;
+    }
+
+    .product-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .product-card p {
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 20px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    .service-item h3 {
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .service-item p {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px;
+      border-radius: 14px;
+    }
+
+    .offering-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+
+    .offering-card p {
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 20px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 16px;
     }
 
     .hero-cta {
@@ -232,7 +308,7 @@
     }
 
     .products-section h2 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 60px;
       text-align: center;
       font-weight: 700;
@@ -250,7 +326,7 @@
     }
 
     .services-section h2 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 60px;
       text-align: center;
       font-weight: 700;
@@ -432,20 +508,27 @@
       max-width: 900px;
       margin: 0 auto;
       text-align: center;
-      background: linear-gradient(135deg, rgba(0, 150, 255, 0.05) 0%, rgba(0, 100, 200, 0.03) 100%);
-      border-radius: 24px;
       margin-bottom: 40px;
-      border: 1px solid rgba(0, 180, 255, 0.1);
     }
 
     .contact-section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
+      font-size: 2.8rem;
+      margin-bottom: 40px;
       font-weight: 700;
       background: linear-gradient(135deg, #fff 30%, #7ec8ff 70%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      filter: drop-shadow(0 2px 4px rgba(126, 200, 255, 0.3));
+    }
+
+    .contact-wrapper {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: 50px 40px;
     }
 
     .contact-message {
@@ -456,6 +539,12 @@
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px;
+      border-radius: 16px;
     }
 
     .contact-buttons {
@@ -538,7 +627,13 @@
       font-size: 0.95rem;
       color: rgba(255, 255, 255, 0.5);
       font-style: italic;
-      margin-top: 10px;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 16px;
+      border-radius: 12px;
     }
 
     /* ===== SECCION OFERTAS/PRODUCTOS ===== */
@@ -549,7 +644,7 @@
     }
 
     .offerings-section h2 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 60px;
       text-align: center;
       font-weight: 700;
@@ -784,6 +879,18 @@
           <h3>Mantenimiento</h3>
           <p>Actualizaciones periodicas y optimizacion constante de tu infraestructura</p>
         </div>
+        <div class="service-item">
+          <h3>Integraciones API</h3>
+          <p>Conecta tus sistemas con soluciones empresariales líderes del mercado</p>
+        </div>
+        <div class="service-item">
+          <h3>Migracion de Datos</h3>
+          <p>Transferencia segura y transparente de tus datos sin perdidas ni interrupciones</p>
+        </div>
+        <div class="service-item">
+          <h3>Testing y QA</h3>
+          <p>Validacion exhaustiva para garantizar la calidad y confiabilidad total</p>
+        </div>
       </div>
     </section>
 
@@ -814,21 +921,35 @@
           <p>Plataformas integrales para control total de tus operaciones y datos críticos</p>
           <a href="#" class="offering-link">Explorar &rarr;</a>
         </div>
+        <div class="offering-card">
+          <div class="offering-icon">🔐</div>
+          <h3>Seguridad Avanzada</h3>
+          <p>Protección multinivel con encriptación y monitoreo continuo de amenazas</p>
+          <a href="#" class="offering-link">Explorar &rarr;</a>
+        </div>
+        <div class="offering-card">
+          <div class="offering-icon">📊</div>
+          <h3>Business Intelligence</h3>
+          <p>Análisis profundos y reportes inteligentes para decisiones estratégicas</p>
+          <a href="#" class="offering-link">Explorar &rarr;</a>
+        </div>
       </div>
     </section>
 
     <section class="contact-section" id="contacto">
       <h2>Contacta Con Nosotros</h2>
-      <p class="contact-message">Descubre cómo MANALF puede transformar tu visión en realidad. Lo mejor aún no se ha dado a conocer, y nosotros te acercamos a ello.</p>
-      <div class="contact-buttons">
-        <a href="https://wa.link/giwkbo" target="_blank" class="contact-btn whatsapp-btn">
-          <span>💬</span> WhatsApp
-        </a>
-        <a href="mailto:manalfnfc@gmail.com" class="contact-btn email-btn">
-          <span>✉️</span> Email
-        </a>
+      <div class="contact-wrapper">
+        <p class="contact-message">Descubre cómo MANALF puede transformar tu visión en realidad. Lo mejor aún no se ha dado a conocer, y nosotros te acercamos a ello.</p>
+        <div class="contact-buttons">
+          <a href="https://wa.link/giwkbo" target="_blank" class="contact-btn whatsapp-btn">
+            <span>💬</span> WhatsApp
+          </a>
+          <a href="mailto:manalfnfc@gmail.com" class="contact-btn email-btn">
+            <span>✉️</span> Email
+          </a>
+        </div>
+        <p class="contact-tagline">Estamos listos para llevar tu negocio al siguiente nivel</p>
       </div>
-      <p class="contact-tagline">Estamos listos para llevar tu negocio al siguiente nivel</p>
     </section>
 
     <footer class="footer">
@@ -916,9 +1037,9 @@
       const audioEnd = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
       audioEnd.play().catch(() => {});
 
-      // Crossfade: video -> imagen estatica
+      // Crossfade rápido y sutil: video -> imagen estatica
       staticBg.style.opacity = '1';
-      videoBg.style.transition = 'opacity 1.5s ease';
+      videoBg.style.transition = 'opacity 0.3s ease';
       videoBg.style.opacity = '0';
 
       // Muestra el contenido principal
