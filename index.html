@@ -3,24 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MANALF - Soluciones Tecnologicas</title>
+  <title>MANALF - Infraestructuras Digitales Inteligentes</title>
   <style>
+    :root {
+      --uva-deep: #4c1d95;
+      --uva-main: #7c3aed;
+      --uva-light: #a78bfa;
+      --glass-bg: rgba(15, 10, 30, 0.72);
+      --glass-border: rgba(139, 92, 246, 0.18);
+      --glass-border-hover: rgba(168, 85, 247, 0.5);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.75);
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
       background: #000;
-      color: #fff;
+      color: var(--text-primary);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
     /* ===== CAPAS DE FONDO ===== */
+    #initBg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transition: opacity 1s ease;
+    }
 
-    /* Imagen estatica del ultimo frame (siempre presente, se revela con fade) */
+    #overlayContrast {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 1;
+      pointer-events: none;
+    }
+
     #staticBg {
       position: fixed;
       top: 0;
@@ -28,12 +65,12 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -2;
+      z-index: 2;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 1.2s ease;
+      pointer-events: none;
     }
 
-    /* Video de fondo */
     #videoBg {
       position: fixed;
       top: 0;
@@ -41,21 +78,52 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1;
+      z-index: 3;
       opacity: 0;
       transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    /* ===== CANVAS PARTICULAS ===== */
+    #welcomeParticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    #bgParticles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 6;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    #bgParticles.visible {
+      opacity: 1;
     }
 
     /* ===== OVERLAY BLUR INICIAL ===== */
     .blur-overlay {
       position: fixed;
       inset: 0;
-      z-index: 10;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(10, 5, 25, 0.45);
+      z-index: 2000;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
       transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.5s;
     }
 
@@ -65,32 +133,20 @@
       pointer-events: none;
     }
 
-    /* Movimiento sutil del botón - solo en desktop */
     @keyframes pulse-float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-3px);
-      }
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-4px); }
     }
 
     .pulse-btn {
-      animation: pulse-float 4s ease-in-out infinite;
+      animation: pulse-float 3s ease-in-out infinite;
     }
 
-    @media (max-width: 768px) {
-      .pulse-btn {
-        animation: none;
-      }
-    }
-
-    /* Indicador de carga */
     .loader {
       width: 24px;
       height: 24px;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      border-top-color: rgba(255, 255, 255, 0.8);
+      border: 2px solid rgba(139, 92, 246, 0.2);
+      border-top-color: var(--uva-light);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
       opacity: 0;
@@ -105,54 +161,51 @@
       to { transform: rotate(360deg); }
     }
 
-    /* ===== BOTON CRISTAL ===== */
+    /* ===== BOTON CRISTAL UVa ===== */
     .glass-btn {
-      padding: 18px 52px;
+      position: relative;
+      padding: 20px 56px;
       border-radius: 50px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(167, 139, 250, 0.3);
+      background: rgba(76, 29, 149, 0.15);
       color: #fff;
-      font-size: 16px;
-      letter-spacing: 0.8px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      font-size: 17px;
+      letter-spacing: 1px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       cursor: pointer;
       transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       box-shadow:
-        0 0 30px rgba(100, 180, 255, 0.05),
-        0 4px 20px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
-      font-weight: 500;
+        0 0 40px rgba(124, 58, 237, 0.15),
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      font-weight: 600;
       font-family: inherit;
-      position: relative;
       overflow: hidden;
+      z-index: 2001;
     }
 
     .glass-btn::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(167, 139, 250, 0.25) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.4s ease;
     }
 
     .glass-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-3px) scale(1.02);
+      background: rgba(109, 40, 217, 0.25);
+      transform: translateY(-3px) scale(1.03);
       box-shadow:
-        0 12px 40px rgba(100, 180, 255, 0.12),
-        0 4px 20px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.28);
-      border-color: rgba(255, 255, 255, 0.35);
+        0 12px 40px rgba(124, 58, 237, 0.25),
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      border-color: rgba(167, 139, 250, 0.6);
     }
 
     .glass-btn:hover::before {
       opacity: 1;
-    }
-
-    .glass-btn:active {
-      transform: translateY(0) scale(0.98);
     }
 
     .glass-btn:disabled {
@@ -164,7 +217,7 @@
     /* ===== CONTENIDO PRINCIPAL ===== */
     .main-content {
       position: relative;
-      z-index: 5;
+      z-index: 10;
       opacity: 0;
       visibility: hidden;
       transition: opacity 2s ease 0.5s, visibility 2s ease 0.5s;
@@ -176,616 +229,577 @@
       visibility: visible;
     }
 
+    /* ===== NAVEGACION ===== */
+    nav {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: rgba(15, 10, 30, 0.65);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+      border-radius: 50px;
+      padding: 14px 36px;
+      display: flex;
+      gap: 36px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 58, 237, 0.08);
+      opacity: 0;
+      transition: opacity 1s ease 0.8s, transform 0.3s ease;
+    }
+
+    nav.visible {
+      opacity: 1;
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--uva-main), var(--uva-light));
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+      text-shadow: 0 0 20px rgba(167, 139, 250, 0.6);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
     /* ===== SECCIONES ===== */
+    section {
+      padding: 100px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
     .hero-section {
-      padding: 80px 40px;
+      padding: 140px 32px 100px;
       text-align: center;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 100%);
+      position: relative;
     }
 
     .hero-section h1 {
-      font-size: 4rem;
-      font-weight: 800;
-      margin-bottom: 20px;
-      letter-spacing: -2px;
-      text-shadow: 0 4px 20px rgba(0, 150, 255, 0.25), 0 2px 8px rgba(0, 0, 0, 0.5);
-      background: linear-gradient(135deg, #fff 30%, #7ec8ff 70%);
+      font-size: clamp(64px, 10vw, 130px);
+      font-weight: 900;
+      margin-bottom: 24px;
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 0%, #d8b4fe 50%, #a78bfa 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 2px 4px rgba(126, 200, 255, 0.3));
+      background-size: 200% auto;
+      animation: shimmer 6s ease-in-out infinite;
+      filter: drop-shadow(0 0 40px rgba(139, 92, 246, 0.3));
+      line-height: 1.1;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 100% center; }
     }
 
     .hero-section p {
-      font-size: 1.25rem;
-      color: rgba(255, 255, 255, 0.8);
-      max-width: 600px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 24px;
-    }
-
-    .product-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      font-weight: 600;
-      position: relative;
-      z-index: 1;
-    }
-
-    .product-card p {
-      color: rgba(255, 255, 255, 0.65);
-      margin-bottom: 20px;
-      line-height: 1.6;
-      position: relative;
-      z-index: 1;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 16px;
-      border-radius: 16px;
-    }
-
-    .service-item h3 {
-      font-size: 1.25rem;
-      margin-bottom: 12px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.95);
-    }
-
-    .service-item p {
-      color: rgba(255, 255, 255, 0.55);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 12px;
-      border-radius: 14px;
-    }
-
-    .offering-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      font-weight: 600;
-      position: relative;
-      z-index: 1;
-    }
-
-    .offering-card p {
-      color: rgba(255, 255, 255, 0.65);
-      margin-bottom: 20px;
-      line-height: 1.6;
-      position: relative;
-      z-index: 1;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 16px;
-      border-radius: 16px;
+      font-size: clamp(16px, 2.2vw, 22px);
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 720px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+      font-weight: 400;
     }
 
     .hero-cta {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 14px 36px;
-      background: rgba(0, 150, 255, 0.15);
-      border: 1px solid rgba(0, 180, 255, 0.3);
+      gap: 12px;
+      padding: 16px 40px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(167, 139, 250, 0.35);
       border-radius: 50px;
-      color: #7ec8ff;
+      color: #e9d5ff;
       text-decoration: none;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      backdrop-filter: blur(8px);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .hero-cta:hover::before {
+      left: 100%;
     }
 
     .hero-cta:hover {
-      background: rgba(0, 150, 255, 0.3);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(0, 150, 255, 0.2);
+      background: rgba(124, 58, 237, 0.3);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(139, 92, 246, 0.25);
+      border-color: rgba(192, 132, 252, 0.6);
+      color: #ffffff;
     }
 
-    .products-section {
-      padding: 100px 40px;
-      max-width: 1200px;
+    /* ===== TITULOS DE SECCION ===== */
+    .section-title {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 800;
+      margin-bottom: 64px;
+      text-align: center;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 60%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 24px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--uva-main), transparent);
+      border-radius: 2px;
+    }
+
+    .section-divider {
+      height: 1px;
+      max-width: 800px;
       margin: 0 auto;
+      background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.3), transparent);
     }
 
-    .products-section h2 {
-      font-size: 2.8rem;
-      margin-bottom: 60px;
-      text-align: center;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 16px;
-      display: inline-block;
-      margin-left: 50%;
-      transform: translateX(-50%);
-      letter-spacing: 0.5px;
-    }
-
-    .services-section h2 {
-      font-size: 2.8rem;
-      margin-bottom: 60px;
-      text-align: center;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 16px;
-      display: inline-block;
-      margin-left: 50%;
-      transform: translateX(-50%);
-      letter-spacing: 0.5px;
-    }
-
+    /* ===== GRIDS ===== */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-      margin-bottom: 80px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
     }
 
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    /* ===== TARJETAS PRODUCTOS - FUTURISTA ===== */
     .product-card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 40px 30px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 44px 32px;
       text-align: center;
       transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       cursor: pointer;
       position: relative;
       overflow: hidden;
       opacity: 0;
-      transform: translateY(30px) translateZ(0);
+      transform: translateY(40px) scale(0.96);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .product-card.visible {
       opacity: 1;
-      transform: translateY(0) translateZ(0);
+      transform: translateY(0) scale(1);
     }
 
     .product-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(0, 150, 255, 0.08) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.5s ease;
     }
 
+    .product-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.8s ease;
+    }
+
     .product-card:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(0, 180, 255, 0.25);
-      transform: translateY(-10px) scale(1.02) translateZ(0);
-      box-shadow: 0 25px 50px rgba(0, 100, 200, 0.12);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 
+        0 24px 64px rgba(76, 29, 149, 0.2), 
+        0 0 0 1px rgba(168, 85, 247, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
     .product-card:hover::before {
       opacity: 1;
     }
 
+    .product-card:hover::after {
+      left: 150%;
+    }
+
     .product-icon {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      opacity: 0.9;
-      position: relative;
-      z-index: 1;
+      font-size: 3.2rem;
+      margin-bottom: 24px;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.4));
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-icon {
+      transform: scale(1.15) rotate(-5deg);
     }
 
     .product-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      font-weight: 600;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 700;
+      color: #ffffff;
       position: relative;
       z-index: 1;
+      letter-spacing: -0.3px;
     }
 
     .product-card p {
-      color: rgba(255, 255, 255, 0.65);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin-bottom: 25px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.98rem;
+      line-height: 1.75;
+      margin-bottom: 28px;
       position: relative;
       z-index: 1;
     }
 
-    .product-link {
-      display: inline-block;
-      padding: 12px 28px;
-      background: rgba(0, 150, 255, 0.1);
-      border: 1px solid rgba(0, 180, 255, 0.2);
-      border-radius: 30px;
-      color: #7ec8ff;
+    /* ===== BOTONES REVEAL BRILLO ===== */
+    .btn-reveal {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(167, 139, 250, 0.25);
+      border-radius: 50px;
+      color: #ddd6fe;
       text-decoration: none;
       font-size: 0.95rem;
-      font-weight: 500;
-      transition: all 0.35s ease;
+      font-weight: 600;
+      transition: all 0.4s ease;
       position: relative;
+      overflow: hidden;
       z-index: 1;
+      backdrop-filter: blur(8px);
     }
 
-    .product-link:hover {
-      background: rgba(0, 150, 255, 0.25);
+    .btn-reveal::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: left 0.6s ease;
+      z-index: -1;
+    }
+
+    .btn-reveal:hover::before {
+      left: 100%;
+    }
+
+    .btn-reveal:hover {
+      background: rgba(124, 58, 237, 0.3);
+      border-color: rgba(192, 132, 252, 0.5);
+      color: #ffffff;
       transform: scale(1.05);
-      box-shadow: 0 4px 20px rgba(0, 150, 255, 0.15);
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
     }
 
-    .services-section {
-      padding: 100px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .services-section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 60px;
-      text-align: center;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-
+    /* ===== TARJETAS SERVICIOS ===== */
     .service-item {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      padding: 32px;
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      background: rgba(20, 15, 40, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      border-radius: 20px;
+      padding: 36px 32px;
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
       opacity: 0;
-      transform: translateY(20px) scale(0.95) translateZ(0);
+      transform: translateY(30px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
     }
 
     .service-item.visible {
       opacity: 1;
-      transform: translateY(0) scale(1) translateZ(0);
+      transform: translateY(0);
+    }
+
+    .service-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--uva-main), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
     .service-item:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(0, 180, 255, 0.2);
-      transform: translateY(-8px) translateX(6px) scale(1.02) translateZ(0);
-      box-shadow: 0 15px 40px rgba(0, 100, 200, 0.12);
+      background: rgba(30, 25, 55, 0.7);
+      border-color: rgba(139, 92, 246, 0.25);
+      transform: translateY(-6px) translateX(4px);
+      box-shadow: 0 16px 48px rgba(76, 29, 149, 0.15);
+    }
+
+    .service-item:hover::before {
+      opacity: 1;
     }
 
     .service-item h3 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       margin-bottom: 12px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.95);
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .service-bullet {
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(135deg, var(--uva-main), var(--uva-light));
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
+      flex-shrink: 0;
     }
 
     .service-item p {
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.6);
       font-size: 0.95rem;
-      line-height: 1.6;
+      line-height: 1.7;
+      padding-left: 22px;
     }
 
-    .footer {
-      text-align: center;
-      padding: 60px 40px;
-      color: rgba(255, 255, 255, 0.35);
-      font-size: 0.9rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    /* ===== SECCION CONTACTO ===== */
+    /* ===== CONTACTO ===== */
     .contact-section {
-      padding: 100px 40px;
-      max-width: 900px;
-      margin: 0 auto;
       text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .contact-section h2 {
-      font-size: 2.8rem;
-      margin-bottom: 40px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #fff 30%, #7ec8ff 70%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 2px 4px rgba(126, 200, 255, 0.3));
     }
 
     .contact-wrapper {
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 28px;
-      padding: 50px 40px;
+      background: rgba(20, 15, 40, 0.5);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+      border-radius: 32px;
+      padding: 64px 48px;
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-wrapper::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+      pointer-events: none;
     }
 
     .contact-message {
-      font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.75);
-      margin-bottom: 40px;
-      line-height: 1.8;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 24px;
-      border-radius: 16px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(18px, 3vw, 24px);
+      line-height: 1.9;
+      margin-bottom: 48px;
+      position: relative;
+      z-index: 1;
+      font-weight: 400;
     }
 
     .contact-buttons {
       display: flex;
       gap: 20px;
       justify-content: center;
-      margin-bottom: 30px;
       flex-wrap: wrap;
-    }
-
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 16px 40px;
-      border-radius: 50px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 1rem;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border: 2px solid;
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contact-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .contact-btn span {
-      font-size: 1.3rem;
+      margin-bottom: 40px;
       position: relative;
       z-index: 1;
     }
 
+    .contact-btn {
+      padding: 18px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border: 2px solid;
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-btn span {
+      font-size: 1.4rem;
+    }
+
     .whatsapp-btn {
-      background: rgba(37, 211, 102, 0.15);
-      color: #25d366;
-      border-color: rgba(37, 211, 102, 0.4);
-      box-shadow: 0 0 20px rgba(37, 211, 102, 0.1);
+      background: rgba(37, 211, 102, 0.12);
+      color: #4ade80;
+      border-color: rgba(74, 222, 128, 0.35);
     }
 
     .whatsapp-btn:hover {
       background: rgba(37, 211, 102, 0.25);
       transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 35px rgba(37, 211, 102, 0.2);
-      border-color: rgba(37, 211, 102, 0.6);
-    }
-
-    .whatsapp-btn:hover::before {
-      opacity: 1;
+      box-shadow: 0 12px 40px rgba(74, 222, 128, 0.2);
+      border-color: rgba(74, 222, 128, 0.6);
+      color: #86efac;
     }
 
     .email-btn {
-      background: rgba(100, 180, 255, 0.15);
-      color: #7ec8ff;
-      border-color: rgba(100, 180, 255, 0.4);
-      box-shadow: 0 0 20px rgba(100, 180, 255, 0.1);
+      background: rgba(124, 58, 237, 0.12);
+      color: #c4b5fd;
+      border-color: rgba(167, 139, 250, 0.35);
     }
 
     .email-btn:hover {
-      background: rgba(100, 180, 255, 0.25);
+      background: rgba(124, 58, 237, 0.25);
       transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 35px rgba(100, 180, 255, 0.2);
-      border-color: rgba(100, 180, 255, 0.6);
-    }
-
-    .email-btn:hover::before {
-      opacity: 1;
+      box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+      border-color: rgba(192, 132, 252, 0.6);
+      color: #e9d5ff;
     }
 
     .contact-tagline {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.45);
+      font-size: 15px;
       font-style: italic;
-      margin-top: 20px;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 16px;
-      border-radius: 12px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
     }
 
-    /* ===== SECCION OFERTAS/PRODUCTOS ===== */
-    .offerings-section {
-      padding: 100px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .offerings-section h2 {
-      font-size: 2.8rem;
-      margin-bottom: 60px;
+    /* ===== FOOTER ===== */
+    .footer {
       text-align: center;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 30px;
-      border-radius: 16px;
-      display: inline-block;
-      margin-left: 50%;
-      transform: translateX(-50%);
-      letter-spacing: 0.5px;
-    }
-
-    .offerings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin-bottom: 80px;
-    }
-
-    .offering-card {
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 40px 30px;
-      text-align: center;
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      cursor: pointer;
+      padding: 60px 32px;
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(139, 92, 246, 0.08);
+      margin-top: 40px;
       position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(30px) rotateX(15deg) translateZ(0);
+      z-index: 10;
     }
 
-    .offering-card.visible {
-      opacity: 1;
-      transform: translateY(0) rotateX(0) translateZ(0);
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 8px;
     }
 
-    .offering-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0, 180, 255, 0.12) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.5s ease;
+    ::-webkit-scrollbar-track {
+      background: #050210;
     }
 
-    .offering-card:hover {
-      background: rgba(255, 255, 255, 0.09);
-      border-color: rgba(0, 200, 255, 0.3);
-      transform: translateY(-12px) scale(1.03) translateZ(0);
-      box-shadow: 0 30px 60px rgba(0, 150, 255, 0.15);
+    ::-webkit-scrollbar-thumb {
+      background: rgba(139, 92, 246, 0.25);
+      border-radius: 4px;
     }
 
-    .offering-card:hover::before {
-      opacity: 1;
-    }
-
-    .offering-icon {
-      font-size: 3.5rem;
-      margin-bottom: 20px;
-      opacity: 0.95;
-      position: relative;
-      z-index: 1;
-      transition: transform 0.4s ease;
-    }
-
-    .offering-card:hover .offering-icon {
-      transform: scale(1.15) rotate(-5deg);
-    }
-
-    .offering-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      font-weight: 600;
-      position: relative;
-      z-index: 1;
-    }
-
-    .offering-card p {
-      color: rgba(255, 255, 255, 0.65);
-      margin-bottom: 20px;
-      line-height: 1.6;
-      position: relative;
-      z-index: 1;
-    }
-
-    .offering-link {
-      color: rgba(126, 200, 255, 0.8);
-      text-decoration: none;
-      font-weight: 500;
-      position: relative;
-      z-index: 1;
-      transition: color 0.3s ease;
-    }
-
-    .offering-link:hover {
-      color: #7ec8ff;
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 92, 246, 0.45);
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
+      nav {
+        gap: 20px;
+        padding: 12px 24px;
+        font-size: 13px;
+      }
+
       .hero-section {
-        padding: 60px 20px;
+        padding: 120px 24px 80px;
       }
 
-      .hero-section h1 {
-        font-size: 2.8rem;
+      section {
+        padding: 60px 24px;
       }
 
-      .hero-section p {
-        font-size: 1.1rem;
+      .products-grid,
+      .services-grid {
+        grid-template-columns: 1fr;
       }
 
-      .products-section,
-      .services-section,
-      .offerings-section,
-      .contact-section {
-        padding: 60px 20px;
-      }
-
-      .products-section h2,
-      .services-section h2,
-      .offerings-section h2,
-      .contact-section h2 {
-        font-size: 2rem;
+      .contact-wrapper {
+        padding: 40px 24px;
       }
 
       .glass-btn {
         font-size: 15px;
-        padding: 16px 40px;
+        padding: 18px 40px;
       }
     }
 
-    /* ===== REDUCIR MOVIMIENTO ===== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -796,252 +810,442 @@
 </head>
 <body>
 
-  <!-- Imagen estatica del ultimo frame (capa fija) -->
-  <img id="staticBg" src="https://www.image2url.com/r2/default/images/1776531563137-97f8423c-bb2c-4b2c-8b63-4aa2a712cd3e.png" alt="" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 3; opacity: 0; pointer-events: none;">
+  <!-- Fondo inicial visible -->
+  <img id="initBg" src="https://www.image2url.com/r2/default/images/1776506071031-a6408ea8-68c2-40ae-b7be-773bb71eab75.jpg" alt="">
 
-  <!-- Video de fondo - sin espacio ocupado -->
-  <video id="videoBg" preload="auto" muted playsinline disablePictureInPicture style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; opacity: 0; pointer-events: none;">
+  <!-- Overlay de contraste -->
+  <div id="overlayContrast"></div>
+
+  <!-- Canvas de partículas de bienvenida (moradas) -->
+  <canvas id="welcomeParticles"></canvas>
+
+  <!-- Imagen estática final del video (fondo permanente) -->
+  <img id="staticBg" src="https://www.image2url.com/r2/default/images/1776531563137-97f8423c-bb2c-4b2c-8b63-4aa2a712cd3e.png" alt="">
+
+  <!-- Video de transición -->
+  <video id="videoBg" preload="auto" muted playsinline disablePictureInPicture>
     <source src="video/intro.webm" type="video/webm">
     <source src="video/intro.mp4" type="video/mp4">
   </video>
 
-  <!-- Fondo imagen inicial Full HD - VISIBLE DESDE INICIO -->
-  <img id="initBg" src="https://www.image2url.com/r2/default/images/1776506071031-a6408ea8-68c2-40ae-b7be-773bb71eab75.jpg" alt="background" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;">
+  <!-- Canvas de fondo general (red neuronal 3D) -->
+  <canvas id="bgParticles"></canvas>
 
-  <!-- Overlay sutil - solo contraste -->
-  <div id="overlayContrast" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.25); z-index: 1;"></div>
-
-  <!-- Overlay inicial - solo botón enfocado -->
+  <!-- Overlay de bienvenida con blur -->
   <div class="blur-overlay" id="blurOverlay">
     <button class="glass-btn pulse-btn" id="enterBtn" disabled>
-      Te estabamos esperando. continua...  
+      Te estábamos esperando... continúa
     </button>
     <div class="loader" id="loader"></div>
   </div>
 
-<!-- Contenido principal -->
-<div class="main-content" id="mainContent" style="color:#ffffff;">
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-content" id="mainContent">
 
-  <section class="hero-section">
-    <h1 style="color:#ffffff;">MANALF</h1>
-    <p style="color:#f5f5f5;">
-    Destacamos creando Infraestructuras digitales inteligentes, diseñadas para convertir ideas en sistemas reales, automatizados y escalables.<br>
-    </p>
-    <a href="#productos" class="hero-cta" style="color:#ffffff;">Explorar ecosistemas... &rarr;</a>
-  </section>
+    <nav id="mainNav">
+      <a href="#productos">Productos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
 
-  <section class="products-section" id="productos">
-    <h2 style="color:#ffffff;"></h2>
-    <div class="products-grid">
-      
-      <div class="product-card">
-        <div class="product-icon">&#128295;</div>
-        <h3 style="color:#ffffff;">MEDUSA</h3>
-        <p style="color:#eaeaea;">
-          Controla quién entra, cuándo y cómo. Genera accesos únicos con códigos QR de una sola lectura, eliminando duplicidad y riesgos.<br>
-          Diseñado para eventos, espacios privados y experiencias donde el control no es opcional, es estratégico.
-        </p>
-        <a href="#" class="product-link" style="color:#ffffff;">Conocer más &rarr;</a>
-      </div>
-
-      <div class="product-card"> saas
-        <div class="product-icon">&#128202;</div>
-        <h3 style="color:#ffffff;"> - </h3>
-        <p style="color:#eaeaea;"> muy pronto... 
-        </p>
-        <a href="#" class="product-link" style="color:#ffffff;">----------- &rarr;</a>
-      </div>
-
-      <div class="product-card"> saas
-        <div class="product-icon">&#128272;</div>
-        <h3 style="color:#ffffff;"> - </h3>
-        <p style="color:#eaeaea;">
-          muy pronto... 
-        </p>
-        <a href="#" class="product-link" style="color:#ffffff;">------------- &rarr;</a>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="services-section" id="servicios">
-    <h2 style="color:#ffffff;"> Servicios calificados </h2>
-    <div class="services-grid"> excelencia
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Arquitectura Digital Personalizada</h3>
-        <p style="color:#eaeaea;">
-          Diseñamos la estructura completa de tu ecosistema digital para que cada parte cumpla una función clara dentro de tu crecimiento.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Software a Medida</h3>
-        <p style="color:#eaeaea;">
-          Creamos soluciones que no existen en el mercado, adaptadas exactamente a cómo funciona tu negocio, no al revés.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Implementación Inteligente</h3>
-        <p style="color:#eaeaea;">
-          Activamos tu sistema listo para operar desde el primer momento, sin fricciones ni procesos innecesarios.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Soporte Evolutivo</h3>
-        <p style="color:#eaeaea;">
-          No solo mantenemos tu sistema, lo hacemos evolucionar contigo. Cada mejora responde a datos reales y uso real.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Activación de Equipo</h3>
-        <p style="color:#eaeaea;">
-          Tu equipo no solo usa el sistema, aprende a dominarlo para convertirlo en una herramienta de ventaja competitiva.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Optimización Continua</h3>
-        <p style="color:#eaeaea;">
-          Ajustamos cada detalle para mejorar rendimiento, eficiencia y resultados sin que tengas que detener tu operación.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Automatización con IA</h3>
-        <p style="color:#eaeaea;">
-          Bots que entienden tu negocio, responden por ti y convierten conversaciones en oportunidades constantes.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Digitalización de Información</h3>
-        <p style="color:#eaeaea;">
-          Transformamos datos dispersos en estructuras organizadas, accesibles y listas para ser utilizadas estratégicamente.
-        </p>
-      </div>
-
-      <div class="service-item">
-        <h3 style="color:#ffffff;">Experiencia Digital</h3>
-        <p style="color:#eaeaea;">
-          Diseñamos interfaces que guían, conectan y generan acción sin esfuerzo, donde cada interacción tiene un propósito.
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="offerings-section" id="ofertas">
-    <h2 style="color:#ffffff;">Productos Inteligentes</h2>
-    <div class="offerings-grid">
-
-      <div class="offering-card">
-        <div class="offering-icon">🚀</div>
-        <h3 style="color:#ffffff;">Kit Emprendedor NFC</h3>
-        <p style="color:#eaeaea;">
-          Lleva tu identidad digital contigo. Comparte información, redes o servicios con un solo gesto.<br>
-          Una herramienta simple que genera impacto inmediato.
-        </p>
-        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
-      </div>
-
-      <div class="offering-card">
-        <div class="offering-icon">📱</div>
-        <h3 style="color:#ffffff;">Identidad Digital Premium</h3>
-        <p style="color:#eaeaea;">
-          Toda tu presencia digital organizada en un solo espacio elegante, diseñado para transmitir claridad, valor y profesionalismo.
-        </p>
-        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
-      </div>
-
-      <div class="offering-card">
-        <div class="offering-icon">🤖</div>
-        <h3 style="color:#ffffff;">Bots con IA</h3>
-        <p style="color:#eaeaea;">
-          Automatiza conversaciones sin perder personalidad. Responde, filtra y convierte sin depender de tu tiempo.
-        </p>
-        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
-      </div>
-
-      <div class="offering-card">
-        <div class="offering-icon">💼</div>
-        <h3 style="color:#ffffff;">Formularios + Base de Datos</h3>
-        <p style="color:#eaeaea;">
-          Cada dato que capturas se convierte en información estructurada lista para ser utilizada dentro de tu sistema.
-        </p>
-        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
-      </div>
-
-      <div class="offering-card">
-        <div class="offering-icon">🔐</div>
-        <h3 style="color:#ffffff;">Habladores Inteligentes NFC</h3>
-        <p style="color:#eaeaea;">
-          Convierte espacios físicos en puntos de interacción digital. Información instantánea sin fricción.
-        </p>
-        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
-      </div>
-
-      <div class="offering-card">
-        <div class="offering-icon">📊</div>
-        <h3 style="color:#ffffff;">Experiencias Tecnológicas</h3>
-        <p style="color:#eaeaea;">
-          Diseñamos experiencias que combinan tecnología y percepción para generar impacto, recuerdos y conexión real.
-        </p>
-        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="contact-section" id="contacto">
-    <h2 style="color:#ffffff;">Contacto</h2>
-    <div class="contact-wrapper">
-      <p class="contact-message" style="color:#f0f0f0;">
-        Cuéntanos qué quieres construir.<br>
-        Si es posible imaginarlo, es posible estructurarlo.<br>
-        Nosotros nos encargamos de convertirlo en un sistema real.
+    <!-- HERO -->
+    <section class="hero-section">
+      <h1>MANALF</h1>
+      <p>
+        Destacamos creando Infraestructuras digitales inteligentes, diseñadas para convertir ideas en sistemas reales, automatizados y escalables.
       </p>
+      <a href="#productos" class="hero-cta">Explorar ecosistemas &rarr;</a>
+    </section>
 
-      <div class="contact-buttons">
-        <a href="https://wa.link/giwkbo" target="_blank" class="contact-btn whatsapp-btn">
-          <span>💬</span> WhatsApp
-        </a>
-        <a href="mailto:manalfnfc@gmail.com" class="contact-btn email-btn">
-          <span>✉️</span> Email : manalfnfc@gmail.com 
-        </a>
+    <div class="section-divider"></div>
+
+    <!-- PRODUCTOS FÍSICOS NFC -->
+    <section id="productos">
+      <h2 class="section-title">Productos NFC</h2>
+      <div class="products-grid">
+
+        <div class="product-card">
+          <div class="product-icon">🚀</div>
+          <h3>Kit Empresarial NFC</h3>
+          <p>
+            Solución integral de networking para empresas y profesionales. Comparte información de contacto, catálogos digitales, redes sociales y documentación comercial con un solo toque. Elimina la fricción del intercambio tradicional.
+          </p>
+          <a href="https://wa.link/giwkbo" target="_blank" class="btn-reveal">Cotizar ahora &rarr;</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">🔑</div>
+          <h3>Llaveros NFC</h3>
+          <p>
+            Tu identidad digital siempre contigo. Un accesorio elegante y funcional que almacena y transmite tu información al acercarlo a cualquier smartphone. Ideal para eventos, reuniones o uso diario.
+          </p>
+          <a href="https://wa.link/giwkbo" target="_blank" class="btn-reveal">Cotizar ahora &rarr;</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">💳</div>
+          <h3>MANALF Card NFC</h3>
+          <p>
+            La tarjeta de presentación del futuro. Sin aplicaciones, sin contactos perdidos. Un simple toque contra un teléfono y tu información queda guardada instantáneamente. Diseño premium en materiales de alta resistencia.
+          </p>
+          <a href="https://wa.link/giwkbo" target="_blank" class="btn-reveal">Cotizar ahora &rarr;</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">⌚</div>
+          <h3>Pulsera Inteligente NFC</h3>
+          <p>
+            Identificador de emergencia diseñado para adultos mayores y personas con condiciones médicas. Almacena información vital, contactos de emergencia, alergias y ubicación. En caso de accidente, un toque revela los datos esenciales.
+          </p>
+          <a href="https://wa.link/giwkbo" target="_blank" class="btn-reveal">Cotizar ahora &rarr;</a>
+        </div>
+
+        <div class="product-card">
+          <div class="product-icon">📡</div>
+          <h3>Habladores NFC</h3>
+          <p>
+            Convierte cualquier espacio físico en un punto de interacción digital inteligente. Colócalos en tu negocio para que clientes accedan a menús, catálogos, redes sociales o información técnica al instante, sin descargas ni fricción.
+          </p>
+          <a href="https://wa.link/giwkbo" target="_blank" class="btn-reveal">Cotizar ahora &rarr;</a>
+        </div>
+
+        <!-- MEDUSA - Producto Digital Especial -->
+        <div class="product-card">
+          <div class="product-icon">&#128295;</div>
+          <h3>MEDUSA</h3>
+          <p>
+            Controla quién entra, cuándo y cómo. Genera accesos únicos con códigos QR de una sola lectura, eliminando duplicidad y riesgos. Diseñado para eventos, espacios privados y experiencias donde el control no es opcional, es estratégico.
+          </p>
+          <a href="https://medusa-manalf.vercel.app/" target="_blank" class="btn-reveal">Acceder al sistema &rarr;</a>
+        </div>
+
       </div>
+    </section>
 
-      <p class="contact-tagline" style="color:#ffffff;">
-        No todos necesitan esto.<br>
-        Solo quienes entienden el valor del control digital.
-      </p>
-    </div>
-  </section>
+    <div class="section-divider"></div>
 
-  <footer class="footer" style="color:#ffffff;">
-    <p>&copy; 2026 MANALF. Todos los derechos reservados.</p>
-  </footer>
+    <!-- SERVICIOS CALIFICADOS -->
+    <section id="servicios">
+      <h2 class="section-title">Servicios Calificados</h2>
+      <div class="services-grid">
 
-</div>
-  
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Arquitectura Digital Personalizada</h3>
+          <p>Diseñamos la estructura completa de tu ecosistema digital para que cada parte cumpla una función clara dentro de tu crecimiento.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Software a Medida</h3>
+          <p>Creamos soluciones que no existen en el mercado, adaptadas exactamente a cómo funciona tu negocio, no al revés.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Implementación Inteligente</h3>
+          <p>Activamos tu sistema listo para operar desde el primer momento, sin fricciones ni procesos innecesarios.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Soporte Evolutivo</h3>
+          <p>No solo mantenemos tu sistema, lo hacemos evolucionar contigo. Cada mejora responde a datos reales y uso real.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Activación de Equipo</h3>
+          <p>Tu equipo no solo usa el sistema, aprende a dominarlo para convertirlo en una herramienta de ventaja competitiva.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Optimización Continua</h3>
+          <p>Ajustamos cada detalle para mejorar rendimiento, eficiencia y resultados sin que tengas que detener tu operación.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Automatización con IA</h3>
+          <p>Bots inteligentes que entienden tu negocio, responden por ti y convierten conversaciones en oportunidades constantes.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Digitalización de Información</h3>
+          <p>Transformamos datos dispersos en estructuras organizadas. Incluye formularios inteligentes conectados a bases de datos en tiempo real.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Experiencia Digital</h3>
+          <p>Diseñamos interfaces que guían, conectan y generan acción sin esfuerzo. Incluye identidad digital premium y presencia profesional unificada.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Experiencias Tecnológicas</h3>
+          <p>Diseñamos experiencias que combinan tecnología y percepción para generar impacto, recuerdos y conexión real en eventos e instalaciones.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Integración de Sistemas</h3>
+          <p>Conectamos tus plataformas actuales en un ecosistema unificado donde la información fluye automáticamente entre todos tus canales.</p>
+        </div>
+
+        <div class="service-item">
+          <h3><span class="service-bullet"></span>Consultoría Estratégica</h3>
+          <p>Analizamos tu operación actual y diseñamos la hoja de ruta tecnológica para llevar tu negocio al siguiente nivel con control total.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- CONTACTO -->
+    <section class="contact-section" id="contacto">
+      <h2 class="section-title">Contacto</h2>
+      <div class="contact-wrapper">
+        <p class="contact-message">
+          Cuéntanos qué quieres construir.<br>
+          Si es posible imaginarlo, es posible estructurarlo.<br>
+          Nosotros nos encargamos de convertirlo en un sistema real.
+        </p>
+
+        <div class="contact-buttons">
+          <a href="https://wa.link/giwkbo" target="_blank" class="contact-btn whatsapp-btn">
+            <span>💬</span> WhatsApp
+          </a>
+          <a href="mailto:manalfnfc@gmail.com" class="contact-btn email-btn">
+            <span>✉️</span> Email : manalfnfc@gmail.com 
+          </a>
+        </div>
+
+        <p class="contact-tagline">
+          No todos necesitan esto.<br>
+          Solo quienes entienden el valor del control digital.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 MANALF. Todos los derechos reservados.</p>
+    </footer>
+
   </div>
 
   <script>
+    /* ===== AUDIO FUTURISTA ===== */
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx;
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new AudioContext();
+    }
+
+    function playActivationTone() {
+      if (!audioCtx) return;
+      const t = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+      
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.type = 'sine';
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(800, t);
+      filter.frequency.exponentialRampToValueAtTime(3000, t + 0.3);
+      
+      osc.frequency.setValueAtTime(220, t);
+      osc.frequency.exponentialRampToValueAtTime(880, t + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(1760, t + 0.4);
+      
+      gain.gain.setValueAtTime(0.08, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
+      
+      osc.start(t);
+      osc.stop(t + 0.5);
+    }
+
+    function playCompleteTone() {
+      if (!audioCtx) return;
+      const t = audioCtx.currentTime;
+      [523.25, 659.25, 783.99].forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, t + i * 0.08);
+        gain.gain.setValueAtTime(0.06, t + i * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + i * 0.08 + 0.4);
+        osc.start(t + i * 0.08);
+        osc.stop(t + i * 0.08 + 0.4);
+      });
+    }
+
+    /* ===== PARTICULAS DE BIENVENIDA (UVA) ===== */
+    const welcomeCanvas = document.getElementById('welcomeParticles');
+    const wCtx = welcomeCanvas.getContext('2d');
+    let welcomeParticles = [];
+    let mouseX = 0, mouseY = 0;
+
+    function resizeWelcome() {
+      welcomeCanvas.width = window.innerWidth;
+      welcomeCanvas.height = window.innerHeight;
+    }
+    resizeWelcome();
+    window.addEventListener('resize', resizeWelcome);
+
+    class WelcomeParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * welcomeCanvas.width;
+        this.y = Math.random() * welcomeCanvas.height;
+        this.vx = (Math.random() - 0.5) * 0.6;
+        this.vy = (Math.random() - 0.5) * 0.6;
+        this.size = Math.random() * 3 + 1;
+        this.alpha = Math.random() * 0.5 + 0.2;
+        this.glow = Math.random() * 20 + 10;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > welcomeCanvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > welcomeCanvas.height) this.vy *= -1;
+        
+        const dx = this.x - mouseX;
+        const dy = this.y - mouseY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 150) {
+          this.x += dx * 0.01;
+          this.y += dy * 0.01;
+        }
+      }
+      draw() {
+        wCtx.beginPath();
+        wCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        wCtx.fillStyle = `rgba(167, 139, 250, ${this.alpha})`;
+        wCtx.shadowBlur = this.glow;
+        wCtx.shadowColor = 'rgba(139, 92, 246, 0.8)';
+        wCtx.fill();
+        wCtx.shadowBlur = 0;
+      }
+    }
+
+    for (let i = 0; i < 90; i++) welcomeParticles.push(new WelcomeParticle());
+
+    function drawWelcomeConnections() {
+      for (let i = 0; i < welcomeParticles.length; i++) {
+        for (let j = i + 1; j < welcomeParticles.length; j++) {
+          const dx = welcomeParticles[i].x - welcomeParticles[j].x;
+          const dy = welcomeParticles[i].y - welcomeParticles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 120) {
+            wCtx.beginPath();
+            wCtx.moveTo(welcomeParticles[i].x, welcomeParticles[i].y);
+            wCtx.lineTo(welcomeParticles[j].x, welcomeParticles[j].y);
+            wCtx.strokeStyle = `rgba(167, 139, 250, ${0.15 * (1 - dist/120)})`;
+            wCtx.lineWidth = 0.8;
+            wCtx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateWelcome() {
+      if (!document.getElementById('blurOverlay').classList.contains('hidden')) {
+        wCtx.clearRect(0, 0, welcomeCanvas.width, welcomeCanvas.height);
+        welcomeParticles.forEach(p => { p.update(); p.draw(); });
+        drawWelcomeConnections();
+        requestAnimationFrame(animateWelcome);
+      } else {
+        wCtx.clearRect(0, 0, welcomeCanvas.width, welcomeCanvas.height);
+      }
+    }
+    animateWelcome();
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    /* ===== FONDO RED NEURONAL 3D ===== */
+    const bgCanvas = document.getElementById('bgParticles');
+    const bgCtx = bgCanvas.getContext('2d');
+    let bgParticles = [];
+
+    function resizeBg() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+    }
+    resizeBg();
+    window.addEventListener('resize', resizeBg);
+
+    class BgParticle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * bgCanvas.width;
+        this.y = Math.random() * bgCanvas.height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 2 + 0.5;
+        this.alpha = Math.random() * 0.3 + 0.1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > bgCanvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > bgCanvas.height) this.vy *= -1;
+      }
+      draw() {
+        bgCtx.beginPath();
+        bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        bgCtx.fillStyle = `rgba(192, 132, 252, ${this.alpha})`;
+        bgCtx.fill();
+      }
+    }
+
+    for (let i = 0; i < 60; i++) bgParticles.push(new BgParticle());
+
+    function drawBgConnections() {
+      for (let i = 0; i < bgParticles.length; i++) {
+        for (let j = i + 1; j < bgParticles.length; j++) {
+          const dx = bgParticles[i].x - bgParticles[j].x;
+          const dy = bgParticles[i].y - bgParticles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 180) {
+            bgCtx.beginPath();
+            bgCtx.moveTo(bgParticles[i].x, bgParticles[i].y);
+            bgCtx.lineTo(bgParticles[j].x, bgParticles[j].y);
+            bgCtx.strokeStyle = `rgba(139, 92, 246, ${0.08 * (1 - dist/180)})`;
+            bgCtx.lineWidth = 0.5;
+            bgCtx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateBg() {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      bgParticles.forEach(p => { p.update(); p.draw(); });
+      drawBgConnections();
+      requestAnimationFrame(animateBg);
+    }
+    animateBg();
+
+    /* ===== LOGICA VIDEO Y TRANSICIONES ===== */
     const enterBtn = document.getElementById('enterBtn');
     const videoBg = document.getElementById('videoBg');
     const staticBg = document.getElementById('staticBg');
     const blurOverlay = document.getElementById('blurOverlay');
     const mainContent = document.getElementById('mainContent');
+    const mainNav = document.getElementById('mainNav');
     const loader = document.getElementById('loader');
+    const bgParticlesCanvas = document.getElementById('bgParticles');
 
     let videoStarted = false;
-    const VIDEO_DURATION = 5100; // 5.1s del video + margen
+    const VIDEO_DURATION = 5100;
 
-    // === PRECARGA ===
-    // Esperamos a que el video este listo para reproducir
     videoBg.load();
 
     function enableButton() {
@@ -1053,70 +1257,48 @@
       loader.classList.add('visible');
     }
 
-    // Evento: el video puede reproducirse sin cortes
     videoBg.addEventListener('canplaythrough', enableButton, { once: true });
 
-    // Fallback: si tarda mas de 3s, activamos el boton igual
     setTimeout(() => {
-      if (enterBtn.disabled && !videoStarted) {
-        enableButton();
-      }
+      if (enterBtn.disabled && !videoStarted) enableButton();
     }, 3000);
 
-    // Mostrar loader mientras carga
     showLoader();
 
-    // === CLICK EN EL BOTON ===
     enterBtn.addEventListener('click', () => {
       if (videoStarted) return;
       videoStarted = true;
+      initAudio();
+      playActivationTone();
 
-      // Audio: inicio del sistema
-      const audioStart = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
-      audioStart.play().catch(() => {});
-
-      // 1. Muestra el video
       videoBg.style.opacity = '1';
-
-      // 2. Intenta reproducir
       const playPromise = videoBg.play();
 
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
           console.log('Autoplay bloqueado:', err);
-          // Si falla la reproduccion, vamos directo al contenido
           skipToContent();
         });
       }
 
-      // 3. Desvanece el overlay blur
       blurOverlay.classList.add('hidden');
-
-      // 4. Cuando el video termina: crossfade a la imagen estatica
       videoBg.addEventListener('ended', onVideoEnded, { once: true });
 
-      // 5. Fallback: si el video se congela o falla, mostrar contenido a los 6s
       setTimeout(() => {
-        if (!mainContent.classList.contains('visible')) {
-          onVideoEnded();
-        }
+        if (!mainContent.classList.contains('visible')) onVideoEnded();
       }, VIDEO_DURATION + 1000);
     });
 
     function onVideoEnded() {
-      // Audio: sistema iniciado
-      const audioEnd = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
-      audioEnd.play().catch(() => {});
-
-      // Crossfade rápido y sutil: video -> imagen estatica
+      playCompleteTone();
       staticBg.style.opacity = '1';
-      videoBg.style.transition = 'opacity 0.3s ease';
+      videoBg.style.transition = 'opacity 0.8s ease';
       videoBg.style.opacity = '0';
-
-      // Muestra el contenido principal
+      
       mainContent.classList.add('visible');
-
-      // Activa animaciones de cards con IntersectionObserver
+      mainNav.classList.add('visible');
+      bgParticlesCanvas.classList.add('visible');
+      
       animateOnScroll();
     }
 
@@ -1125,31 +1307,44 @@
       videoBg.style.opacity = '0';
       blurOverlay.classList.add('hidden');
       mainContent.classList.add('visible');
+      mainNav.classList.add('visible');
+      bgParticlesCanvas.classList.add('visible');
       animateOnScroll();
     }
 
-    // === ANIMACIONES SCROLL ===
+    /* ===== ANIMACIONES SCROLL ===== */
     function animateOnScroll() {
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            const delay = Array.from(entry.target.parentNode.children).indexOf(entry.target) * 100;
             setTimeout(() => {
               entry.target.classList.add('visible');
-            }, index * 100);
+            }, delay);
             observer.unobserve(entry.target);
           }
         });
       }, { threshold: 0.1 });
 
-      document.querySelectorAll('.product-card, .service-item, .offering-card').forEach(el => {
+      document.querySelectorAll('.product-card, .service-item').forEach(el => {
         observer.observe(el);
       });
     }
 
-    // Si el contenido ya es visible (sin video), activar animaciones
     if (mainContent.classList.contains('visible')) {
       animateOnScroll();
     }
+
+    /* ===== SMOOTH SCROLL NAV ===== */
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   </script>
 
 </body>
