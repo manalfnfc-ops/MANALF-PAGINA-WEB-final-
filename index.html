@@ -819,325 +819,242 @@
     <div class="loader" id="loader"></div>
   </div>
 
-<!-- Contenido principal -->
-<div class="main-content" id="mainContent" style="color:#ffffff;">
+<!-- ================= ESTILOS PREMIUM ================= -->
+<style>
+/* GLASS BASE */
+.product-card,
+.service-item,
+.offering-card {
+  position: relative;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,120,255,0.10));
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 18px;
+  padding: 22px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
 
-  <!-- HERO -->
-  <section class="hero-section" style="text-align:center; padding: 120px 20px;">
+/* OVERLAY OSCURO PARA LEGIBILIDAD */
+.product-card::before,
+.service-item::before,
+.offering-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+  z-index: 0;
+}
 
-    <h1 style="
-      color:#ffffff;
-      font-size: clamp(60px, 9vw, 120px);
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      font-weight: 700;
-      text-shadow: 0 0 30px rgba(255,255,255,0.18);
-      margin-bottom: 20px;
-    ">
+/* EFECTO CRISTAL LÍQUIDO (LUZ DINÁMICA) */
+.product-card::after,
+.service-item::after,
+.offering-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(0,180,255,0.25), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.product-card:hover::after,
+.service-item:hover::after,
+.offering-card:hover::after {
+  opacity: 1;
+}
+
+/* CONTENIDO ARRIBA */
+.product-card *,
+.service-item *,
+.offering-card * {
+  position: relative;
+  z-index: 1;
+}
+
+/* TITULOS */
+.product-card h3,
+.service-item h3,
+.offering-card h3 {
+  color: #fff;
+  font-size: clamp(18px,2vw,26px);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(255,255,255,0.25);
+}
+
+/* TITULOS SECCION */
+.products-section h2,
+.services-section h2,
+.offerings-section h2,
+.contact-section h2 {
+  font-size: clamp(28px,4vw,44px);
+  letter-spacing: 5px;
+  text-align:center;
+  text-transform:uppercase;
+  text-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* TEXTO */
+.product-card p,
+.service-item p,
+.offering-card p {
+  color: rgba(255,255,255,0.95);
+  line-height: 1.6;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+}
+
+/* HOVER */
+.product-card:hover,
+.service-item:hover,
+.offering-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(0,120,255,0.3);
+}
+
+/* ANIMACION */
+.product-card,
+.service-item,
+.offering-card {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  filter: blur(10px);
+}
+
+.product-card.visible,
+.service-item.visible,
+.offering-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition: all 0.8s cubic-bezier(.2,.8,.2,1);
+}
+</style>
+
+
+<!-- ================= CONTENIDO ================= -->
+<div class="main-content" id="mainContent">
+
+  <section class="hero-section" style="text-align:center; padding:120px 20px;">
+    <h1 style="font-size:clamp(60px,9vw,120px); letter-spacing:6px; text-transform:uppercase; text-shadow:0 0 30px rgba(255,255,255,0.2);">
       MANALF
     </h1>
 
-    <p style="
-      color:#eaeaea;
-      font-size: clamp(16px, 2vw, 20px);
-      max-width: 700px;
-      margin: 0 auto 40px auto;
-      line-height: 1.6;
-    ">
-      Diseñamos infraestructuras digitales inteligentes que convierten ideas en sistemas reales, automatizados y escalables.<br>
-      Centraliza, controla y optimiza tu operación desde una sola estructura.
+    <p style="max-width:700px; margin:auto; margin-bottom:40px;">
+      Diseñamos infraestructuras digitales inteligentes que convierten ideas en sistemas reales, automatizados y escalables.
     </p>
 
-    <a href="#productos" class="hero-cta" style="
-      color:#ffffff;
-      padding: 14px 28px;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 30px;
-      text-decoration: none;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.05);
-      display: inline-block;
-    ">
-      Explorar ecosistemas &rarr;
+    <a href="#productos" class="hero-cta">
+      Explorar ecosistemas →
     </a>
-
   </section>
 
 
-  <!-- PRODUCTOS / SAAS -->
   <section class="products-section" id="productos">
-    <h2 style="color:#ffffff;">SaaS</h2>
+    <h2>SaaS</h2>
 
     <div class="products-grid">
 
       <div class="product-card">
-        <div class="product-icon">&#128295;</div>
-        <h3 style="color:#ffffff;">MEDUSA</h3>
-        <p style="color:#eaeaea;">
-          Controla quién entra, cuándo y cómo. Genera accesos únicos con códigos QR de una sola lectura, eliminando duplicidad y riesgos.<br>
-          Diseñado para eventos, espacios privados y experiencias donde el control no es opcional, es estratégico.
+        <h3>MEDUSA</h3>
+        <p>
+          Elimina accesos duplicados y riesgos. Control total en tiempo real con códigos QR únicos diseñados para entornos donde la seguridad define la experiencia.
         </p>
-        <a href="#" class="product-link" style="color:#ffffff;">Conocer más &rarr;</a>
       </div>
 
       <div class="product-card">
-        <div class="product-icon">&#128202;</div>
-        <h3 style="color:#ffffff;">Muy pronto</h3>
-        <p style="color:#eaeaea;">Nuevo sistema en desarrollo</p>
+        <h3>Muy pronto</h3>
+        <p>Nuevo sistema en desarrollo.</p>
       </div>
 
       <div class="product-card">
-        <div class="product-icon">&#128272;</div>
-        <h3 style="color:#ffffff;">Muy pronto</h3>
-        <p style="color:#eaeaea;">Expansión del ecosistema</p>
+        <h3>Muy pronto</h3>
+        <p>Expansión del ecosistema.</p>
       </div>
 
     </div>
   </section>
 
 
-  <!-- SERVICIOS -->
   <section class="services-section" id="servicios">
-    <h2 style="color:#ffffff;">Servicios calificados</h2>
+    <h2>Servicios calificados</h2>
 
     <div class="services-grid">
 
       <div class="service-item">
-        <h3>Arquitectura Digital Personalizada</h3>
-        <p>Diseñamos la estructura completa de tu ecosistema digital para que cada parte cumpla una función clara dentro de tu crecimiento.</p>
+        <h3>Arquitectura Digital</h3>
+        <p>Estructuramos tu negocio en un sistema claro, escalable y controlable.</p>
       </div>
 
       <div class="service-item">
         <h3>Software a Medida</h3>
-        <p>Creamos soluciones adaptadas exactamente a cómo funciona tu negocio.</p>
+        <p>Desarrollos diseñados exactamente para tu operación.</p>
       </div>
 
       <div class="service-item">
-        <h3>Implementación Inteligente</h3>
-        <p>Activamos tu sistema listo para operar desde el primer momento.</p>
-      </div>
-
-      <div class="service-item">
-        <h3>Soporte Evolutivo</h3>
-        <p>Mejoras constantes basadas en uso real.</p>
-      </div>
-
-      <div class="service-item">
-        <h3>Activación de Equipo</h3>
-        <p>Tu equipo aprende a dominar el sistema.</p>
-      </div>
-
-      <div class="service-item">
-        <h3>Optimización Continua</h3>
-        <p>Mejoramos rendimiento sin detener operación.</p>
-      </div>
-
-      <div class="service-item">
-        <h3>Automatización con IA</h3>
-        <p>Bots que responden, filtran y convierten.</p>
-      </div>
-
-      <div class="service-item">
-        <h3>Digitalización de Información</h3>
-        <p>Datos organizados y accesibles.</p>
-      </div>
-
-      <div class="service-item">
-        <h3>Experiencia Digital</h3>
-        <p>Interfaces claras que generan acción.</p>
+        <h3>Automatización IA</h3>
+        <p>Procesos que trabajan por ti, constantemente.</p>
       </div>
 
     </div>
   </section>
 
 
-  <!-- PRODUCTOS -->
   <section class="offerings-section" id="ofertas">
-    <h2 style="color:#ffffff;">Productos Inteligentes</h2>
+    <h2>Productos Inteligentes</h2>
 
     <div class="offerings-grid">
 
       <div class="offering-card">
-        <h3>Kit Emprendedor NFC</h3>
-        <p>Comparte tu información con un solo toque.</p>
+        <h3>Kit NFC</h3>
+        <p>Comparte tu identidad digital en segundos.</p>
       </div>
 
       <div class="offering-card">
-        <h3>Identidad Digital Premium</h3>
-        <p>Toda tu presencia digital en un solo lugar.</p>
+        <h3>Identidad Digital</h3>
+        <p>Toda tu presencia organizada en un solo lugar.</p>
       </div>
 
       <div class="offering-card">
-        <h3>Bots con IA</h3>
-        <p>Automatiza conversaciones y genera oportunidades.</p>
-      </div>
-
-      <div class="offering-card">
-        <h3>Formularios + Base de Datos</h3>
-        <p>Datos convertidos en información útil.</p>
-      </div>
-
-      <div class="offering-card">
-        <h3>Habladores NFC</h3>
-        <p>Interacción inmediata en espacios físicos.</p>
-      </div>
-
-      <div class="offering-card">
-        <h3>Experiencias Tecnológicas</h3>
-        <p>Impacto y recordación con tecnología.</p>
+        <h3>Bots IA</h3>
+        <p>Respuestas inteligentes que convierten.</p>
       </div>
 
     </div>
   </section>
 
 
-  <!-- CONTACTO -->
   <section class="contact-section" id="contacto">
     <h2>Contacto</h2>
 
-    <p>
-      Cuéntanos qué quieres construir.<br>
-      Nosotros lo convertimos en un sistema real.
-    </p>
+    <p>Cuéntanos qué quieres construir. Nosotros lo convertimos en sistema.</p>
 
     <a href="https://wa.link/giwkbo" target="_blank">WhatsApp</a>
     <a href="mailto:manalfnfc@gmail.com">Email</a>
 
-    <p>
-      No todos necesitan esto.<br>
-      Solo quienes entienden el valor del control digital.
-    </p>
+    <p>Solo para quienes entienden el valor del control digital.</p>
   </section>
 
 
-  <!-- FOOTER -->
   <footer class="footer">
-    <p>&copy; 2026 MANALF. Todos los derechos reservados.</p>
+    <p>&copy; 2026 MANALF</p>
   </footer>
 
 </div>
-  
-  </div>
 
-  <script>
-    const enterBtn = document.getElementById('enterBtn');
-    const videoBg = document.getElementById('videoBg');
-    const staticBg = document.getElementById('staticBg');
-    const blurOverlay = document.getElementById('blurOverlay');
-    const mainContent = document.getElementById('mainContent');
-    const loader = document.getElementById('loader');
 
-    let videoStarted = false;
-    const VIDEO_DURATION = 5100; // 5.1s del video + margen
-
-    // === PRECARGA ===
-    // Esperamos a que el video este listo para reproducir
-    videoBg.load();
-
-    function enableButton() {
-      enterBtn.disabled = false;
-      loader.classList.remove('visible');
-    }
-
-    function showLoader() {
-      loader.classList.add('visible');
-    }
-
-    // Evento: el video puede reproducirse sin cortes
-    videoBg.addEventListener('canplaythrough', enableButton, { once: true });
-
-    // Fallback: si tarda mas de 3s, activamos el boton igual
-    setTimeout(() => {
-      if (enterBtn.disabled && !videoStarted) {
-        enableButton();
-      }
-    }, 3000);
-
-    // Mostrar loader mientras carga
-    showLoader();
-
-    // === CLICK EN EL BOTON ===
-    enterBtn.addEventListener('click', () => {
-      if (videoStarted) return;
-      videoStarted = true;
-
-      // Audio: inicio del sistema
-      const audioStart = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
-      audioStart.play().catch(() => {});
-
-      // 1. Muestra el video
-      videoBg.style.opacity = '1';
-
-      // 2. Intenta reproducir
-      const playPromise = videoBg.play();
-
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.log('Autoplay bloqueado:', err);
-          // Si falla la reproduccion, vamos directo al contenido
-          skipToContent();
-        });
-      }
-
-      // 3. Desvanece el overlay blur
-      blurOverlay.classList.add('hidden');
-
-      // 5. Fallback: si el video se congela o falla, mostrar contenido a los 6s
-      setTimeout(() => {
-        if (!mainContent.classList.contains('visible')) {
-          onVideoEnded();
-        }
-      }, VIDEO_DURATION + 1000);
-    });
-
-    function onVideoEnded() {
-      // Audio: sistema iniciado
-      const audioEnd = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
-      audioEnd.play().catch(() => {});
-
-      // Crossfade rápido y sutil: video -> imagen estatica
-      staticBg.style.opacity = '1';
-      videoBg.style.transition = 'opacity 0.3s ease';
-      videoBg.style.opacity = '0';
-
-      // Muestra el contenido principal
-      mainContent.classList.add('visible');
-
-      // Activa animaciones de cards con IntersectionObserver
-      animateOnScroll();
-    }
-
-    function skipToContent() {
-      staticBg.style.opacity = '1';
-      videoBg.style.opacity = '0';
-      blurOverlay.classList.add('hidden');
-      mainContent.classList.add('visible');
-      animateOnScroll();
-    }
-
-    // === ANIMACIONES SCROLL ===
-    function animateOnScroll() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, index * 100);
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-
-      document.querySelectorAll('.product-card, .service-item, .offering-card').forEach(el => {
-        observer.observe(el);
-      });
-    }
-
-    // Si el contenido ya es visible (sin video), activar animaciones
-    if (mainContent.classList.contains('visible')) {
-      animateOnScroll();
-    }
-  </script>
-
-</body>
-</html>
+<!-- ================= SCRIPT EFECTO CRISTAL ================= -->
+<script>
+document.querySelectorAll('.product-card, .service-item, .offering-card')
+.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--x', x + '%');
+    card.style.setProperty('--y', y + '%');
+  });
+});
+</script>
