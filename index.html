@@ -819,242 +819,345 @@
     <div class="loader" id="loader"></div>
   </div>
 
-<!-- ================= ESTILOS PREMIUM ================= -->
-<style>
-/* GLASS BASE */
-.product-card,
-.service-item,
-.offering-card {
-  position: relative;
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(0,120,255,0.10));
-  border: 1px solid rgba(255,255,255,0.25);
-  border-radius: 18px;
-  padding: 22px;
-  overflow: hidden;
-  transition: all 0.4s ease;
-}
+<!-- Contenido principal -->
+<div class="main-content" id="mainContent" style="color:#ffffff;">
 
-/* OVERLAY OSCURO PARA LEGIBILIDAD */
-.product-card::before,
-.service-item::before,
-.offering-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
-  z-index: 0;
-}
-
-/* EFECTO CRISTAL LÍQUIDO (LUZ DINÁMICA) */
-.product-card::after,
-.service-item::after,
-.offering-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(0,180,255,0.25), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
-}
-
-.product-card:hover::after,
-.service-item:hover::after,
-.offering-card:hover::after {
-  opacity: 1;
-}
-
-/* CONTENIDO ARRIBA */
-.product-card *,
-.service-item *,
-.offering-card * {
-  position: relative;
-  z-index: 1;
-}
-
-/* TITULOS */
-.product-card h3,
-.service-item h3,
-.offering-card h3 {
-  color: #fff;
-  font-size: clamp(18px,2vw,26px);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  text-shadow: 0 0 15px rgba(255,255,255,0.25);
-}
-
-/* TITULOS SECCION */
-.products-section h2,
-.services-section h2,
-.offerings-section h2,
-.contact-section h2 {
-  font-size: clamp(28px,4vw,44px);
-  letter-spacing: 5px;
-  text-align:center;
-  text-transform:uppercase;
-  text-shadow: 0 0 20px rgba(255,255,255,0.2);
-}
-
-/* TEXTO */
-.product-card p,
-.service-item p,
-.offering-card p {
-  color: rgba(255,255,255,0.95);
-  line-height: 1.6;
-  text-shadow: 0 0 8px rgba(0,0,0,0.8);
-}
-
-/* HOVER */
-.product-card:hover,
-.service-item:hover,
-.offering-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 10px 40px rgba(0,120,255,0.3);
-}
-
-/* ANIMACION */
-.product-card,
-.service-item,
-.offering-card {
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  filter: blur(10px);
-}
-
-.product-card.visible,
-.service-item.visible,
-.offering-card.visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
-  transition: all 0.8s cubic-bezier(.2,.8,.2,1);
-}
-</style>
-
-
-<!-- ================= CONTENIDO ================= -->
-<div class="main-content" id="mainContent">
-
-  <section class="hero-section" style="text-align:center; padding:120px 20px;">
-    <h1 style="font-size:clamp(60px,9vw,120px); letter-spacing:6px; text-transform:uppercase; text-shadow:0 0 30px rgba(255,255,255,0.2);">
-      MANALF
-    </h1>
-
-    <p style="max-width:700px; margin:auto; margin-bottom:40px;">
-      Diseñamos infraestructuras digitales inteligentes que convierten ideas en sistemas reales, automatizados y escalables.
+  <section class="hero-section">
+  <h1 style="
+    color:#ffffff;
+    font-size: clamp(50px, 8vw, 110px);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255,255,255,0.15);
+  ">
+    MANALF
+  </h1>
+</section>
+  
+    <p style="color:#f5f5f5;">
+    Destacamos creando Infraestructuras digitales inteligentes, diseñadas para convertir ideas en sistemas reales, automatizados y escalables.<br>
     </p>
-
-    <a href="#productos" class="hero-cta">
-      Explorar ecosistemas →
-    </a>
+    <a href="#productos" class="hero-cta" style="color:#ffffff;">Explorar ecosistemas... &rarr;</a>
   </section>
 
-
   <section class="products-section" id="productos">
-    <h2>SaaS</h2>
-
+    <h2 style="color:#ffffff;"></h2>
     <div class="products-grid">
-
-      <div class="product-card">
-        <h3>MEDUSA</h3>
-        <p>
-          Elimina accesos duplicados y riesgos. Control total en tiempo real con códigos QR únicos diseñados para entornos donde la seguridad define la experiencia.
+      
+      <div class="product-card"> SAAS
+        <div class="product-icon">&#128295;</div>
+        <h3 style="color:#ffffff;">MEDUSA</h3>
+        <p style="color:#eaeaea;">
+          Controla quién entra, cuándo y cómo. Genera accesos únicos con códigos QR de una sola lectura, eliminando duplicidad y riesgos.<br>
+          Diseñado para eventos, espacios privados y experiencias donde el control no es opcional, es estratégico.
         </p>
+        <a href="#" class="product-link" style="color:#ffffff;">Conocer más &rarr;</a>
       </div>
 
       <div class="product-card">
-        <h3>Muy pronto</h3>
-        <p>Nuevo sistema en desarrollo.</p>
+        <div class="product-icon">&#128202;</div>
+        <h3 style="color:#ffffff;"> - </h3>
+        <p style="color:#eaeaea;"> muy pronto... 
+        </p>
+        <a href="#" class="product-link" style="color:#ffffff;"> &rarr;</a>
       </div>
 
       <div class="product-card">
-        <h3>Muy pronto</h3>
-        <p>Expansión del ecosistema.</p>
+        <div class="product-icon">&#128272;</div>
+        <h3 style="color:#ffffff;"> - </h3>
+        <p style="color:#eaeaea;">
+          muy pronto... 
+        </p>
+        <a href="#" class="product-link" style="color:#ffffff;">------------- &rarr;</a>
       </div>
 
     </div>
   </section>
 
-
   <section class="services-section" id="servicios">
-    <h2>Servicios calificados</h2>
-
+    <h2 style="color:#ffffff;"> Servicios calificados </h2>
     <div class="services-grid">
 
       <div class="service-item">
-        <h3>Arquitectura Digital</h3>
-        <p>Estructuramos tu negocio en un sistema claro, escalable y controlable.</p>
+        <h3 style="color:#ffffff;">Arquitectura Digital Personalizada</h3>
+        <p style="color:#eaeaea;">
+          Diseñamos la estructura completa de tu ecosistema digital para que cada parte cumpla una función clara dentro de tu crecimiento.
+        </p>
       </div>
 
       <div class="service-item">
-        <h3>Software a Medida</h3>
-        <p>Desarrollos diseñados exactamente para tu operación.</p>
+        <h3 style="color:#ffffff;">Software a Medida</h3>
+        <p style="color:#eaeaea;">
+          Creamos soluciones que no existen en el mercado, adaptadas exactamente a cómo funciona tu negocio, no al revés.
+        </p>
       </div>
 
       <div class="service-item">
-        <h3>Automatización IA</h3>
-        <p>Procesos que trabajan por ti, constantemente.</p>
+        <h3 style="color:#ffffff;">Implementación Inteligente</h3>
+        <p style="color:#eaeaea;">
+          Activamos tu sistema listo para operar desde el primer momento, sin fricciones ni procesos innecesarios.
+        </p>
+      </div>
+
+      <div class="service-item">
+        <h3 style="color:#ffffff;">Soporte Evolutivo</h3>
+        <p style="color:#eaeaea;">
+          No solo mantenemos tu sistema, lo hacemos evolucionar contigo. Cada mejora responde a datos reales y uso real.
+        </p>
+      </div>
+
+      <div class="service-item">
+        <h3 style="color:#ffffff;">Activación de Equipo</h3>
+        <p style="color:#eaeaea;">
+          Tu equipo no solo usa el sistema, aprende a dominarlo para convertirlo en una herramienta de ventaja competitiva.
+        </p>
+      </div>
+
+      <div class="service-item">
+        <h3 style="color:#ffffff;">Optimización Continua</h3>
+        <p style="color:#eaeaea;">
+          Ajustamos cada detalle para mejorar rendimiento, eficiencia y resultados sin que tengas que detener tu operación.
+        </p>
+      </div>
+
+      <div class="service-item">
+        <h3 style="color:#ffffff;">Automatización con IA</h3>
+        <p style="color:#eaeaea;">
+          Bots que entienden tu negocio, responden por ti y convierten conversaciones en oportunidades constantes.
+        </p>
+      </div>
+
+      <div class="service-item">
+        <h3 style="color:#ffffff;">Digitalización de Información</h3>
+        <p style="color:#eaeaea;">
+          Transformamos datos dispersos en estructuras organizadas, accesibles y listas para ser utilizadas estratégicamente.
+        </p>
+      </div>
+
+      <div class="service-item">
+        <h3 style="color:#ffffff;">Experiencia Digital</h3>
+        <p style="color:#eaeaea;">
+          Diseñamos interfaces que guían, conectan y generan acción sin esfuerzo, donde cada interacción tiene un propósito.
+        </p>
       </div>
 
     </div>
   </section>
 
-
   <section class="offerings-section" id="ofertas">
-    <h2>Productos Inteligentes</h2>
-
+    <h2 style="color:#ffffff;">Productos Inteligentes</h2>
     <div class="offerings-grid">
 
       <div class="offering-card">
-        <h3>Kit NFC</h3>
-        <p>Comparte tu identidad digital en segundos.</p>
+        <div class="offering-icon">🚀</div>
+        <h3 style="color:#ffffff;">Kit Emprendedor NFC</h3>
+        <p style="color:#eaeaea;">
+          Lleva tu identidad digital contigo. Comparte información, redes o servicios con un solo gesto.<br>
+          Una herramienta simple que genera impacto inmediato.
+        </p>
+        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
       </div>
 
       <div class="offering-card">
-        <h3>Identidad Digital</h3>
-        <p>Toda tu presencia organizada en un solo lugar.</p>
+        <div class="offering-icon">📱</div>
+        <h3 style="color:#ffffff;">Identidad Digital Premium</h3>
+        <p style="color:#eaeaea;">
+          Toda tu presencia digital organizada en un solo espacio elegante, diseñado para transmitir claridad, valor y profesionalismo.
+        </p>
+        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
       </div>
 
       <div class="offering-card">
-        <h3>Bots IA</h3>
-        <p>Respuestas inteligentes que convierten.</p>
+        <div class="offering-icon">🤖</div>
+        <h3 style="color:#ffffff;">Bots con IA</h3>
+        <p style="color:#eaeaea;">
+          Automatiza conversaciones sin perder personalidad. Responde, filtra y convierte sin depender de tu tiempo.
+        </p>
+        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
+      </div>
+
+      <div class="offering-card">
+        <div class="offering-icon">💼</div>
+        <h3 style="color:#ffffff;">Formularios + Base de Datos</h3>
+        <p style="color:#eaeaea;">
+          Cada dato que capturas se convierte en información estructurada lista para ser utilizada dentro de tu sistema.
+        </p>
+        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
+      </div>
+
+      <div class="offering-card">
+        <div class="offering-icon">🔐</div>
+        <h3 style="color:#ffffff;">Habladores Inteligentes NFC</h3>
+        <p style="color:#eaeaea;">
+          Convierte espacios físicos en puntos de interacción digital. Información instantánea sin fricción.
+        </p>
+        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
+      </div>
+
+      <div class="offering-card">
+        <div class="offering-icon">📊</div>
+        <h3 style="color:#ffffff;">Experiencias Tecnológicas</h3>
+        <p style="color:#eaeaea;">
+          Diseñamos experiencias que combinan tecnología y percepción para generar impacto, recuerdos y conexión real.
+        </p>
+        <a href="#" class="offering-link" style="color:#ffffff;">Explorar &rarr;</a>
       </div>
 
     </div>
   </section>
 
-
   <section class="contact-section" id="contacto">
-    <h2>Contacto</h2>
+    <h2 style="color:#ffffff;">Contacto</h2>
+    <div class="contact-wrapper">
+      <p class="contact-message" style="color:#f0f0f0;">
+        Cuéntanos qué quieres construir.<br>
+        Si es posible imaginarlo, es posible estructurarlo.<br>
+        Nosotros nos encargamos de convertirlo en un sistema real.
+      </p>
 
-    <p>Cuéntanos qué quieres construir. Nosotros lo convertimos en sistema.</p>
+      <div class="contact-buttons">
+        <a href="https://wa.link/giwkbo" target="_blank" class="contact-btn whatsapp-btn">
+          <span>💬</span> WhatsApp
+        </a>
+        <a href="mailto:manalfnfc@gmail.com" class="contact-btn email-btn">
+          <span>✉️</span> Email : manalfnfc@gmail.com 
+        </a>
+      </div>
 
-    <a href="https://wa.link/giwkbo" target="_blank">WhatsApp</a>
-    <a href="mailto:manalfnfc@gmail.com">Email</a>
-
-    <p>Solo para quienes entienden el valor del control digital.</p>
+      <p class="contact-tagline" style="color:#ffffff;">
+        No todos necesitan esto.<br>
+        Solo quienes entienden el valor del control digital.
+      </p>
+    </div>
   </section>
 
-
-  <footer class="footer">
-    <p>&copy; 2026 MANALF</p>
+  <footer class="footer" style="color:#ffffff;">
+    <p>&copy; 2026 MANALF. Todos los derechos reservados.</p>
   </footer>
 
 </div>
+  
+  </div>
 
+  <script>
+    const enterBtn = document.getElementById('enterBtn');
+    const videoBg = document.getElementById('videoBg');
+    const staticBg = document.getElementById('staticBg');
+    const blurOverlay = document.getElementById('blurOverlay');
+    const mainContent = document.getElementById('mainContent');
+    const loader = document.getElementById('loader');
 
-<!-- ================= SCRIPT EFECTO CRISTAL ================= -->
-<script>
-document.querySelectorAll('.product-card, .service-item, .offering-card')
-.forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    card.style.setProperty('--x', x + '%');
-    card.style.setProperty('--y', y + '%');
-  });
-});
-</script>
+    let videoStarted = false;
+    const VIDEO_DURATION = 5100; // 5.1s del video + margen
+
+    // === PRECARGA ===
+    // Esperamos a que el video este listo para reproducir
+    videoBg.load();
+
+    function enableButton() {
+      enterBtn.disabled = false;
+      loader.classList.remove('visible');
+    }
+
+    function showLoader() {
+      loader.classList.add('visible');
+    }
+
+    // Evento: el video puede reproducirse sin cortes
+    videoBg.addEventListener('canplaythrough', enableButton, { once: true });
+
+    // Fallback: si tarda mas de 3s, activamos el boton igual
+    setTimeout(() => {
+      if (enterBtn.disabled && !videoStarted) {
+        enableButton();
+      }
+    }, 3000);
+
+    // Mostrar loader mientras carga
+    showLoader();
+
+    // === CLICK EN EL BOTON ===
+    enterBtn.addEventListener('click', () => {
+      if (videoStarted) return;
+      videoStarted = true;
+
+      // Audio: inicio del sistema
+      const audioStart = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
+      audioStart.play().catch(() => {});
+
+      // 1. Muestra el video
+      videoBg.style.opacity = '1';
+
+      // 2. Intenta reproducir
+      const playPromise = videoBg.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.log('Autoplay bloqueado:', err);
+          // Si falla la reproduccion, vamos directo al contenido
+          skipToContent();
+        });
+      }
+
+      // 3. Desvanece el overlay blur
+      blurOverlay.classList.add('hidden');
+
+      // 5. Fallback: si el video se congela o falla, mostrar contenido a los 6s
+      setTimeout(() => {
+        if (!mainContent.classList.contains('visible')) {
+          onVideoEnded();
+        }
+      }, VIDEO_DURATION + 1000);
+    });
+
+    function onVideoEnded() {
+      // Audio: sistema iniciado
+      const audioEnd = new Audio('data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==');
+      audioEnd.play().catch(() => {});
+
+      // Crossfade rápido y sutil: video -> imagen estatica
+      staticBg.style.opacity = '1';
+      videoBg.style.transition = 'opacity 0.3s ease';
+      videoBg.style.opacity = '0';
+
+      // Muestra el contenido principal
+      mainContent.classList.add('visible');
+
+      // Activa animaciones de cards con IntersectionObserver
+      animateOnScroll();
+    }
+
+    function skipToContent() {
+      staticBg.style.opacity = '1';
+      videoBg.style.opacity = '0';
+      blurOverlay.classList.add('hidden');
+      mainContent.classList.add('visible');
+      animateOnScroll();
+    }
+
+    // === ANIMACIONES SCROLL ===
+    function animateOnScroll() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, index * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.product-card, .service-item, .offering-card').forEach(el => {
+        observer.observe(el);
+      });
+    }
+
+    // Si el contenido ya es visible (sin video), activar animaciones
+    if (mainContent.classList.contains('visible')) {
+      animateOnScroll();
+    }
+  </script>
+
+</body>
+</html>
