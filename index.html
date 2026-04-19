@@ -1092,9 +1092,6 @@
       // 3. Desvanece el overlay blur
       blurOverlay.classList.add('hidden');
 
-      // 4. Cuando el video termina: crossfade a la imagen estatica
-      videoBg.addEventListener('ended', onVideoEnded, { once: true });
-
       // 5. Fallback: si el video se congela o falla, mostrar contenido a los 6s
       setTimeout(() => {
         if (!mainContent.classList.contains('visible')) {
