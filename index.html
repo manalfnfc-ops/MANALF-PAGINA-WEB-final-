@@ -600,8 +600,21 @@
       display: inline-block;
       left: 50%;
       transform: translateX(-50%);
-      padding: 0 24px;
+      padding: 12px 28px;
       filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.4));
+    }
+
+    .section-title::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 50px;
+      z-index: -1;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     @keyframes gradient-shift {
@@ -847,6 +860,19 @@
         color: #fff;
         text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
       }
+      nav {
+        gap: 12px;
+        padding: 10px 14px;
+      }
+      nav a {
+        font-size: 12px;
+      }
+      nav a[href="#turismo"],
+      nav a[href="#empresarial"],
+      nav a[href="#eventos"],
+      nav a[href="#tecnologia"] {
+        display: none;
+      }
     }
 
     .system-card:hover .system-icon,
@@ -1019,16 +1045,17 @@
     }
 
     .contact-wrapper {
-      background: transparent;
-      border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 0;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 20px;
       padding: 64px 24px 40px;
       max-width: 720px;
       margin: 0 auto;
       position: relative;
       overflow: visible;
-      box-shadow: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
     .contact-wrapper::before {
@@ -1205,17 +1232,29 @@
 
     .nexus-intro p {
       display: inline-block;
-      color: #0a0a0a;
+      color: #f5f0ff;
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 10px 24px;
+      padding: 12px 28px;
       border-radius: 50px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       line-height: 1.5;
-      -webkit-text-stroke: 0.4px rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      -webkit-text-stroke: 0;
+    }
+
+    /* Clase genérica para títulos en glassmorphism badge */
+    .section-title-badge {
+      display: inline-block;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 8px 20px;
+      border-radius: 50px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     }
 
@@ -1367,7 +1406,7 @@
   <canvas id="welcomeParticles" aria-hidden="true"></canvas>
 
   <!-- Imagen estática final del video (fondo permanente) -->
-  <img id="staticBg" src="https://www.image2url.com/r2/default/images/1776531563137-97f8423c-bb2c-4b2c-8b63-4aa2a712cd3e.png" alt="MANALF infraestructura digital inteligente" loading="lazy">
+  <img id="staticBg" src="https://www.image2url.com/r2/default/images/1776531563137-97f8423c-bb2c-4b2c-8b63-4aa2a712cd3e.png" alt="MANALF infraestructura digital inteligente" loading="eager" decoding="async">
 
   <!-- Video de transición -->
   <video id="videoBg" preload="auto" muted playsinline disablePictureInPicture aria-hidden="true">
@@ -1409,7 +1448,7 @@
       </p>
       <div class="hero-actions">
         <a href="https://wa.link/giwkbo" target="_blank" rel="noopener noreferrer" class="hero-cta hero-cta-primary">Quiero mi diagnóstico gratis &rarr;</a>
-        <a href="#sistemas" class="hero-cta">Ver ecosistemas en operación</a>
+        <a href="#radar-section" class="hero-cta">Ver ecosistemas en operación</a>
       </div>
     </section>
 
